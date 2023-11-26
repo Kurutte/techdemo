@@ -30,9 +30,3 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - assets/audio/
-
-  fonts:
-    - family: Audiowide
-      fonts:
-        - asset: assets/fonts/Audiowide/Audiowide-Regular.ttf
