@@ -13,7 +13,6 @@ import '/models/player_data.dart';
 import '/widgets/pause_menu.dart';
 import '/widgets/game_over_menu.dart';
 
-
 class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
   GameRunner({super.camera});
 
@@ -21,6 +20,12 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
     'main.png',
     'enemy.png',
     'ground.png',
+    'pixelBackground.png',
+    'Char_Run.png',
+    'Char_Jump.png',
+    'Char_Fall.png',
+    'saw.png',
+    'sawOn.png'
   ];
 
   late HeroPlayer _hero;
@@ -31,7 +36,6 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
-
     await Flame.device.fullScreen();
     await Flame.device.setLandscape();
 
@@ -43,7 +47,7 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
 
     final parallaxBackground = await loadParallaxComponent(
       [
-        ParallaxImageData('ground.png'),
+        ParallaxImageData('pixelBackground.png'),
       ],
       baseVelocity: Vector2(10, 0),
       velocityMultiplierDelta: Vector2(1.4, 0),
@@ -67,7 +71,6 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
   }
 
   void reset() {
-
     _disconnectActors();
 
     playerData.currentScore = 0;
@@ -98,7 +101,6 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
     final playerData = playerDataBox.get('GameRunner.PlayerData');
 
     if (playerData == null) {
-
       await playerDataBox.put('GameRunner.PlayerData', PlayerData());
     }
 
