@@ -1,24 +1,32 @@
+import 'dart:async';
+
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import '/game/gamerunner.dart';
 import '/models/enemy_data.dart';
 
+enum EnemyState { idle }
 
-class Enemy extends SpriteComponent
+class Enemy extends SpriteAnimationGroupComponent
     with CollisionCallbacks, HasGameReference<GameRunner> {
-
   final EnemyData enemyData;
 
-  Enemy(this.enemyData) {
-    sprite = Sprite(enemyData.image);
+  Enemy(this.enemyData);
 
+  late final SpriteAnimation sawAnimation;
+
+  @override
+  FutureOr<void> onLoad() {
+    _loadAnimation();
+
+    return super.onLoad();
   }
 
   @override
   void onMount() {
-
     size *= 0.4;
-    
+
     add(
       RectangleHitbox.relative(
         Vector2.all(0.8),
@@ -31,14 +39,40 @@ class Enemy extends SpriteComponent
 
   @override
   void update(double dt) {
-
     position.x -= enemyData.speedX * dt;
+
+    // quick fix, might change later
+    position.y = game.virtualSize.y - 55;
 
     if (position.x < -enemyData.textureSize.x) {
       removeFromParent();
-      game.playerData.currentScore += 10;
+      if (!game.playerData.isHit) {
+        game.playerData.currentScore += 10;
+      } else {
+        game.playerData.isHit = false;
+      }
     }
 
     super.update(dt);
+  }
+
+  void _loadAnimation() {
+    sawAnimation = _spriteAnimation(8);
+
+    // List of all animations, assigned to their states
+    animations = {EnemyState.idle: sawAnimation};
+
+    // Set current animation
+    current = EnemyState.idle;
+  }
+
+  SpriteAnimation _spriteAnimation(int frames) {
+    return SpriteAnimation.fromFrameData(
+        game.images.fromCache('sawOn.png'),
+        SpriteAnimationData.sequenced(
+          amount: frames, // Image has a set amount of pictures, no var needed
+          stepTime: 0.05, // Could change, should use var
+          textureSize: Vector2.all(38),
+        ));
   }
 }
