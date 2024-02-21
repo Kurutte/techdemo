@@ -14,6 +14,8 @@ class Enemy extends SpriteAnimationGroupComponent
 
   Enemy(this.enemyData);
 
+  int limit = 0 ; 
+
   late final SpriteAnimation sawAnimation;
 
   @override

@@ -9,7 +9,11 @@ class PlayerData extends ChangeNotifier with HiveObjectMixin {
 
   int _lives = 3;
 
+  double _power = 0.0;
+
   bool isHit = false;
+
+  int _currentScore = 0 ; 
 
   int get lives => _lives;
   set lives(int value) {
@@ -19,7 +23,11 @@ class PlayerData extends ChangeNotifier with HiveObjectMixin {
     }
   }
 
-  int _currentScore = 0;
+  double get power => _power;
+  set power(double value) {
+    _power = value;
+    notifyListeners();
+  }
 
   int get currentScore => _currentScore;
   set currentScore(int value) {

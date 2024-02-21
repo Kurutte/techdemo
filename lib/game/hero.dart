@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import '/game/enemy.dart';
 import '/game/gamerunner.dart';
 import '/models/player_data.dart';
+import 'dart:math';
 
 enum PlayerState { idle, running, jumping, falling }
 
@@ -13,6 +14,12 @@ class HeroPlayer extends SpriteAnimationGroupComponent
   double yMax = 0.0;
 
   double speedY = 0.0;
+
+  final mockInput = List<double>.filled(360,0);
+
+  int setTime = 360;
+
+  int index = 0 ;
 
   final Timer _hitTimer = Timer(1);
 
@@ -61,16 +68,28 @@ class HeroPlayer extends SpriteAnimationGroupComponent
       y = yMax;
       speedY = 0.0;
     }
+    playerData.power+= mockInput[index] ;
+    index++;
+    index = index % setTime ;
     _hitTimer.update(dt);
     super.update(dt);
   }
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if ((other is Enemy) && (!playerData.isHit)) {
+    if ((other is Enemy) && (!playerData.isHit) ) {
+      if(other.limit > playerData.power ) { 
       hit();
     }
+    else { 
+      jump();
+    }
+    }
     super.onCollision(intersectionPoints, other);
+  }
+
+  void onCollisionEnd(PositionComponent other) {
+    playerData.power = 0 ;
   }
 
   bool get isOnGround => (y >= yMax);
@@ -96,6 +115,10 @@ class HeroPlayer extends SpriteAnimationGroupComponent
     size = Vector2.all(24);
     playerData.isHit = false;
     speedY = 0.0;
+    playerData.power = 0.0;
+    for(int i = 0 ; i < setTime ; i ++ ) {
+         mockInput[i] = Random().nextDouble() * 2.0;
+      }
   }
 
   void _loadAllAnimations() {
