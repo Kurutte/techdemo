@@ -42,6 +42,7 @@ class MainMenu extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      game.limit = 100;
                       game.startGamePlay();
                       game.overlays.remove(MainMenu.id);
                       game.overlays.add(Hud.id);
@@ -55,6 +56,7 @@ class MainMenu extends StatelessWidget {
                   ),
                   ElevatedButton(
                   onPressed: () {
+                    game.limit = 300;
                     game.startGamePlay();
                     game.overlays.remove(MainMenu.id);
                     game.overlays.add(Hud.id);
@@ -68,6 +70,7 @@ class MainMenu extends StatelessWidget {
                 ),
                   ElevatedButton(
                   onPressed: () {
+                    game.limit = 500;
                     game.startGamePlay();
                     game.overlays.remove(MainMenu.id);
                     game.overlays.add(Hud.id);

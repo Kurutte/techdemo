@@ -15,7 +15,7 @@ import '/widgets/game_over_menu.dart';
 
 class GameRunner extends FlameGame with  HasCollisionDetection {
   GameRunner({super.camera});
-
+  int limit = 0; 
   static const _imageAssets = [
     'main.png',
     'enemy.png',
@@ -59,7 +59,7 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
   void startGamePlay() {
     _hero = HeroPlayer(images.fromCache('main.png'), playerData);
     _enemyManager = EnemyManager();
-    _enemyManager.limit = 360; 
+    _enemyManager.limit = limit; 
     world.add(_hero);
     world.add(_enemyManager);
   }
