@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import '/game/enemy.dart';
 import '/game/gamerunner.dart';
 import '/models/player_data.dart';
+import 'dart:math';
 
 enum PlayerState { idle, running, jumping, falling }
 
@@ -13,6 +14,12 @@ class HeroPlayer extends SpriteAnimationGroupComponent
   double yMax = 0.0;
 
   double speedY = 0.0;
+
+  final mockInput = List<double>.filled(360,0);
+
+  int setTime = 360;
+
+  int index = 0 ;
 
   final Timer _hitTimer = Timer(1);
 
@@ -61,16 +68,32 @@ class HeroPlayer extends SpriteAnimationGroupComponent
       y = yMax;
       speedY = 0.0;
     }
+    playerData.power+= mockInput[index] ;
+    index++;
+    index = index % setTime ;
     _hitTimer.update(dt);
     super.update(dt);
   }
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+<<<<<<< HEAD
     if ((other is Enemy) && (!playerData.isHit)) {
+=======
+    if ((other is Enemy) && (!playerData.isHit) ) {
+      if(other.limit > playerData.power ) { 
+>>>>>>> 127f3c07ce8d27e7b95ba2ea6bb4e5c5f6d4f665
       hit();
     }
+    else { 
+      jump();
+    }
+    }
     super.onCollision(intersectionPoints, other);
+  }
+
+  void onCollisionEnd(PositionComponent other) {
+    playerData.power = 0 ;
   }
 
   bool get isOnGround => (y >= yMax);
@@ -96,6 +119,55 @@ class HeroPlayer extends SpriteAnimationGroupComponent
     size = Vector2.all(24);
     playerData.isHit = false;
     speedY = 0.0;
+    playerData.power = 0.0;
+    for(int i = 0 ; i < setTime ; i ++ ) {
+         mockInput[i] = Random().nextDouble() * 2.0;
+      }
+  }
+
+  void _loadAllAnimations() {
+    // Calls private(_) method to set animations
+    runAnimation = _spriteAnimation('Run', 12);
+    jumpAnimation = _spriteAnimation('Jump', 1);
+    fallAnimation = _spriteAnimation('Fall', 1);
+
+    // List of all animations, assigned to their states
+    animations = {
+      PlayerState.running: runAnimation,
+      PlayerState.jumping: jumpAnimation,
+      PlayerState.falling: fallAnimation
+    };
+
+    // Set current animation
+    current = PlayerState.running;
+  }
+
+  SpriteAnimation _spriteAnimation(String state, int frames) {
+    return SpriteAnimation.fromFrameData(
+        game.images.fromCache('Char_$state.png'),
+        SpriteAnimationData.sequenced(
+          amount: frames, // Image has a set amount of pictures, no var needed
+          stepTime: stepTime, // Could change, should use var
+          textureSize: Vector2.all(32),
+        ));
+  }
+
+  void _updatePlayerState() {
+    // Default state = running
+    PlayerState playerState = PlayerState.running;
+
+    // Checks if falling, sets to falling
+    if (speedY > 0) {
+      playerState = PlayerState.falling;
+    }
+
+    // Check if jumping, sets to jumping
+    if (speedY < 0) {
+      playerState = PlayerState.jumping;
+    }
+
+    // Sets current animation to state identified
+    current = playerState;
   }
 
   void _loadAllAnimations() {

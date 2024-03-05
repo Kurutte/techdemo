@@ -13,9 +13,13 @@ import '/models/player_data.dart';
 import '/widgets/pause_menu.dart';
 import '/widgets/game_over_menu.dart';
 
+<<<<<<< HEAD
 class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
+=======
+class GameRunner extends FlameGame with  HasCollisionDetection {
+>>>>>>> 127f3c07ce8d27e7b95ba2ea6bb4e5c5f6d4f665
   GameRunner({super.camera});
-
+  int limit = 0; 
   static const _imageAssets = [
     'main.png',
     'enemy.png',
@@ -59,7 +63,7 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
   void startGamePlay() {
     _hero = HeroPlayer(images.fromCache('main.png'), playerData);
     _enemyManager = EnemyManager();
-
+    _enemyManager.limit = limit; 
     world.add(_hero);
     world.add(_enemyManager);
   }
@@ -75,6 +79,7 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
 
     playerData.currentScore = 0;
     playerData.lives = 3;
+    playerData.power = 0.0;
   }
 
   @override
@@ -85,14 +90,6 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
       pauseEngine();
     }
     super.update(dt);
-  }
-
-  @override
-  void onTapDown(TapDownInfo info) {
-    if (overlays.isActive(Hud.id)) {
-      _hero.jump();
-    }
-    super.onTapDown(info);
   }
 
   Future<PlayerData> _readPlayerData() async {

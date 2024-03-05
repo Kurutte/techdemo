@@ -42,17 +42,46 @@ class MainMenu extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      game.limit = 100;
                       game.startGamePlay();
                       game.overlays.remove(MainMenu.id);
                       game.overlays.add(Hud.id);
                     },
                     child: const Text(
-                      'Run',
+                      'Level 1',
                       style: TextStyle(
                         fontSize: 30,
                       ),
                     ),
                   ),
+                  ElevatedButton(
+                  onPressed: () {
+                    game.limit = 300;
+                    game.startGamePlay();
+                    game.overlays.remove(MainMenu.id);
+                    game.overlays.add(Hud.id);
+                  },
+                  child: const Text(
+                  'Level 2',
+                  style: TextStyle(
+                    fontSize:30,
+                  ),
+                ),
+                ),
+                  ElevatedButton(
+                  onPressed: () {
+                    game.limit = 500;
+                    game.startGamePlay();
+                    game.overlays.remove(MainMenu.id);
+                    game.overlays.add(Hud.id);
+                  },
+                  child: const Text(
+                  'Level 3',
+                  style: TextStyle(
+                    fontSize:30,
+                  ),
+                ),
+                ),
                 ],
               ),
             ),

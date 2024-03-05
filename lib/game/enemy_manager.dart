@@ -9,6 +9,8 @@ class EnemyManager extends Component with HasGameReference<GameRunner> {
 
   final Random _random = Random();
 
+  int limit = 0 ;
+
   final Timer _timer = Timer(5, repeat: true);
 
   EnemyManager() {
@@ -29,6 +31,7 @@ class EnemyManager extends Component with HasGameReference<GameRunner> {
       game.virtualSize.x + 32,
       game.virtualSize.y - 24,
     );
+    enemy.limit = limit ;
 
     enemy.size = enemyData.textureSize;
 

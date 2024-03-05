@@ -42,6 +42,15 @@ class Hud extends StatelessWidget {
                     );
                   },
                 ),
+                Selector<PlayerData,double>( 
+                selector: (_, playerData) => playerData.power,
+                builder: (_,power,__ ) {
+                  return Text(
+                      'Power: $power%',
+                      style: const TextStyle(color: Colors.white),
+                  );
+                  },
+                  ),
               ],
             ),
             TextButton(
