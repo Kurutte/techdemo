@@ -51,15 +51,7 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
 
     camera.viewfinder.position = camera.viewport.virtualSize * 0.5;
 
-    final parallaxBackground = await loadParallaxComponent(
-      [
-        ParallaxImageData('AutumnBackground.png'),
-      ],
-      baseVelocity: Vector2(10, 0),
-      velocityMultiplierDelta: Vector2(1.4, 0),
-    );
-
-    camera.backdrop.add(parallaxBackground);
+    _loadBackground();
   }
 
   void startGamePlay() {
@@ -68,6 +60,7 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
     _enemyManager.limit = limit; 
     world.add(_hero);
     world.add(_enemyManager);
+    _loadBackground();
   }
 
   void _disconnectActors() {
@@ -129,14 +122,14 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
     super.lifecycleStateChange(state);
   }
 
-  void _loadBackground(String levelName) {
+  void _loadBackground() {
     String backgroundName = 'SummerBackground.png';
 
-    if()
-    {
+    if(game.limit == 300) {
+      backgroundName = 'AutumnBackground.png';
     }
-    else if()
-    {
+    else if(game.limit == 500) {
+      backgroundName = 'WinterBackground.png';
     }
     
     final parallaxBackground = await loadParallaxComponent(
