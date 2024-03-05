@@ -24,7 +24,9 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
     'main.png',
     'enemy.png',
     'ground.png',
-    'pixelBackground.png',
+    'AutumnBackground.png',
+    'WinterBackground.png',
+    'SummerBackground.png',
     'Char_Run.png',
     'Char_Jump.png',
     'Char_Fall.png',
@@ -51,7 +53,7 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
 
     final parallaxBackground = await loadParallaxComponent(
       [
-        ParallaxImageData('pixelBackground.png'),
+        ParallaxImageData('AutumnBackground.png'),
       ],
       baseVelocity: Vector2(10, 0),
       velocityMultiplierDelta: Vector2(1.4, 0),
