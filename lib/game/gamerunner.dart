@@ -128,4 +128,25 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
     }
     super.lifecycleStateChange(state);
   }
+
+  void _loadBackground(String levelName) {
+    String backgroundName = 'SummerBackground.png';
+
+    if()
+    {
+    }
+    else if()
+    {
+    }
+    
+    final parallaxBackground = await loadParallaxComponent(
+      [
+        ParallaxImageData(backgroundName),
+      ],
+      baseVelocity: Vector2(10, 0),
+      velocityMultiplierDelta: Vector2(1.4, 0),
+    );
+
+    camera.backdrop.add(parallaxBackground);
+  }
 }
