@@ -15,11 +15,11 @@ class HeroPlayer extends SpriteAnimationGroupComponent
 
   double speedY = 0.0;
 
-  final mockInput = List<double>.filled(360,0);
+  final mockInput = List<double>.filled(360, 0);
 
   int setTime = 360;
 
-  int index = 0 ;
+  int index = 0;
 
   final Timer _hitTimer = Timer(1);
 
@@ -68,28 +68,27 @@ class HeroPlayer extends SpriteAnimationGroupComponent
       y = yMax;
       speedY = 0.0;
     }
-    playerData.power+= mockInput[index] ;
+    playerData.power += mockInput[index];
     index++;
-    index = index % setTime ;
+    index = index % setTime;
     _hitTimer.update(dt);
     super.update(dt);
   }
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if ((other is Enemy) && (!playerData.isHit) ) {
-      if(other.limit > playerData.power ) { 
-      hit();
-    }
-    else { 
-      jump();
-    }
+    if ((other is Enemy) && (!playerData.isHit)) {
+      if (other.limit > playerData.power) {
+        hit();
+      } else {
+        jump();
+      }
     }
     super.onCollision(intersectionPoints, other);
   }
 
   void onCollisionEnd(PositionComponent other) {
-    playerData.power = 0 ;
+    playerData.power = 0;
   }
 
   bool get isOnGround => (y >= yMax);
@@ -111,14 +110,14 @@ class HeroPlayer extends SpriteAnimationGroupComponent
       removeFromParent();
     }
     anchor = Anchor.bottomLeft;
-    position = Vector2(32, game.virtualSize.y - 55);
+    position = Vector2(32, game.virtualSize.y - 43);
     size = Vector2.all(24);
     playerData.isHit = false;
     speedY = 0.0;
     playerData.power = 0.0;
-    for(int i = 0 ; i < setTime ; i ++ ) {
-         mockInput[i] = Random().nextDouble() * 2.0;
-      }
+    for (int i = 0; i < setTime; i++) {
+      mockInput[i] = Random().nextDouble() * 2.0;
+    }
   }
 
   void _loadAllAnimations() {

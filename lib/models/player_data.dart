@@ -9,9 +9,9 @@ class PlayerData extends ChangeNotifier with HiveObjectMixin {
 
   int _lives = 3;
 
-  double _power = 0.0;
-
   bool isHit = false;
+
+  double _power = 0.0;
 
   int _currentScore = 0 ; 
 

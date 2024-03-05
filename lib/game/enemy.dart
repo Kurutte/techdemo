@@ -14,7 +14,7 @@ class Enemy extends SpriteAnimationGroupComponent
 
   Enemy(this.enemyData);
 
-  int limit = 0 ; 
+  int limit = 0;
 
   late final SpriteAnimation sawAnimation;
 
@@ -43,8 +43,7 @@ class Enemy extends SpriteAnimationGroupComponent
   void update(double dt) {
     position.x -= enemyData.speedX * dt;
 
-    // quick fix, might change later
-    position.y = game.virtualSize.y - 55;
+    position.y = game.virtualSize.y - 43;
 
     if (position.x < -enemyData.textureSize.x) {
       removeFromParent();

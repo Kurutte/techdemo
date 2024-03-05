@@ -13,14 +13,16 @@ import '/models/player_data.dart';
 import '/widgets/pause_menu.dart';
 import '/widgets/game_over_menu.dart';
 
-class GameRunner extends FlameGame with  HasCollisionDetection {
+class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
   GameRunner({super.camera});
   int limit = 0; 
   static const _imageAssets = [
     'main.png',
     'enemy.png',
     'ground.png',
-    'pixelBackground.png',
+    'AutumnBackground.png',
+    'WinterBackground.png',
+    'SummerBackground.png',
     'Char_Run.png',
     'Char_Jump.png',
     'Char_Fall.png',
@@ -45,15 +47,7 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
 
     camera.viewfinder.position = camera.viewport.virtualSize * 0.5;
 
-    final parallaxBackground = await loadParallaxComponent(
-      [
-        ParallaxImageData('pixelBackground.png'),
-      ],
-      baseVelocity: Vector2(10, 0),
-      velocityMultiplierDelta: Vector2(1.4, 0),
-    );
-
-    camera.backdrop.add(parallaxBackground);
+    _loadBackground();
   }
 
   void startGamePlay() {
@@ -62,6 +56,7 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
     _enemyManager.limit = limit; 
     world.add(_hero);
     world.add(_enemyManager);
+    _loadBackground();
   }
 
   void _disconnectActors() {
@@ -121,5 +116,26 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
         break;
     }
     super.lifecycleStateChange(state);
+  }
+
+  void _loadBackground () async {
+    String backgroundName = 'SummerBackground.png';
+
+    if(this.limit == 300) {
+      backgroundName = 'AutumnBackground.png';
+    }
+    else if(this.limit == 500) {
+      backgroundName = 'WinterBackground.png';
+    }
+    
+    final parallaxBackground = await loadParallaxComponent(
+      [
+        ParallaxImageData(backgroundName),
+      ],
+      baseVelocity: Vector2(10, 0),
+      velocityMultiplierDelta: Vector2(1.4, 0),
+    );
+
+    camera.backdrop.add(parallaxBackground);
   }
 }
