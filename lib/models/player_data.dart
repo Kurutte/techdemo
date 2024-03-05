@@ -4,11 +4,12 @@ part 'player_data.g.dart';
 
 @HiveType(typeId: 0)
 class PlayerData extends ChangeNotifier with HiveObjectMixin {
-  
   @HiveField(1)
   int highScore = 0;
 
   int _lives = 3;
+
+  bool isHit = false;
 
   int get lives => _lives;
   set lives(int value) {
