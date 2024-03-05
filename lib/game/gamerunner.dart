@@ -13,11 +13,7 @@ import '/models/player_data.dart';
 import '/widgets/pause_menu.dart';
 import '/widgets/game_over_menu.dart';
 
-<<<<<<< HEAD
 class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
-=======
-class GameRunner extends FlameGame with  HasCollisionDetection {
->>>>>>> 127f3c07ce8d27e7b95ba2ea6bb4e5c5f6d4f665
   GameRunner({super.camera});
   int limit = 0; 
   static const _imageAssets = [
@@ -122,13 +118,13 @@ class GameRunner extends FlameGame with  HasCollisionDetection {
     super.lifecycleStateChange(state);
   }
 
-  void _loadBackground() {
+  void _loadBackground () async {
     String backgroundName = 'SummerBackground.png';
 
-    if(game.limit == 300) {
+    if(this.limit == 300) {
       backgroundName = 'AutumnBackground.png';
     }
-    else if(game.limit == 500) {
+    else if(this.limit == 500) {
       backgroundName = 'WinterBackground.png';
     }
     
