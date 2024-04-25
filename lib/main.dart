@@ -1,3 +1,5 @@
+import 'package:dino_run/widgets/customize_menu_hud.dart';
+import 'package:dino_run/widgets/customize_menu_pause.dart';
 import 'package:flame/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
@@ -12,7 +14,6 @@ import 'widgets/pause_menu.dart';
 import 'widgets/game_over_menu.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   await initHive();
@@ -20,7 +21,6 @@ Future<void> main() async {
 }
 
 Future<void> initHive() async {
-
   if (!kIsWeb) {
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
@@ -41,7 +41,6 @@ class RunApp extends StatelessWidget {
         fontFamily: 'San Fransisco',
         primarySwatch: Colors.purple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -51,21 +50,20 @@ class RunApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: GameWidget<GameRunner>.controlled(
-
           loadingBuilder: (conetxt) => const Center(
             child: SizedBox(
               width: 200,
               child: LinearProgressIndicator(),
             ),
           ),
-
           overlayBuilderMap: {
             MainMenu.id: (_, game) => MainMenu(game),
             PauseMenu.id: (_, game) => PauseMenu(game),
             Hud.id: (_, game) => Hud(game),
+            CustomizeHud.id: (_, game) => CustomizeHud(game),
+            CustomizePauseMenu.id: (_, game) => CustomizePauseMenu(game),
             GameOverMenu.id: (_, game) => GameOverMenu(game),
           },
-
           initialActiveOverlays: const [MainMenu.id],
           gameFactory: () => GameRunner(
             camera: CameraComponent.withFixedResolution(

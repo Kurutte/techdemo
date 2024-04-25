@@ -9,7 +9,7 @@ class EnemyManager extends Component with HasGameReference<GameRunner> {
 
   final Random _random = Random();
 
-  int limit = 0 ;
+  int limit = 0;
 
   final Timer _timer = Timer(5, repeat: true);
 
@@ -18,7 +18,6 @@ class EnemyManager extends Component with HasGameReference<GameRunner> {
   }
 
   void spawnRandomEnemy() {
-
     final randomIndex = _random.nextInt(_data.length);
 
     final enemyData = _data.elementAt(randomIndex);
@@ -31,7 +30,7 @@ class EnemyManager extends Component with HasGameReference<GameRunner> {
       game.virtualSize.x + 32,
       game.virtualSize.y - 24,
     );
-    enemy.limit = limit ;
+    enemy.limit = limit;
 
     enemy.size = enemyData.textureSize;
 
@@ -40,17 +39,13 @@ class EnemyManager extends Component with HasGameReference<GameRunner> {
 
   @override
   void onMount() {
-
     if (isMounted) {
       removeFromParent();
     }
 
     if (_data.isEmpty) {
-
       _data.addAll([
-
         EnemyData(
-          image: game.images.fromCache('enemy.png'),
           textureSize: Vector2(36, 30),
           speedX: 80,
         ),
@@ -63,18 +58,15 @@ class EnemyManager extends Component with HasGameReference<GameRunner> {
 
   @override
   void update(double dt) {
-
     _timer.update(dt);
 
     super.update(dt);
   }
 
   void removeAllEnemies() {
-
     final enemies = game.world.children.whereType<Enemy>();
 
     for (var enemy in enemies) {
-      
       enemy.removeFromParent();
     }
   }

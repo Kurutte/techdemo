@@ -1,3 +1,4 @@
+import 'package:dino_run/game/navigation_arrow.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -15,24 +16,152 @@ import '/widgets/game_over_menu.dart';
 
 class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
   GameRunner({super.camera});
-  int limit = 0; 
+  int limit = 0;
   static const _imageAssets = [
-    'main.png',
-    'enemy.png',
-    'ground.png',
     'AutumnBackground.png',
     'WinterBackground.png',
     'SummerBackground.png',
-    'Char_Run.png',
-    'Char_Jump.png',
-    'Char_Fall.png',
-    'saw.png',
-    'sawOn.png'
+    'LeftArrow.png',
+    'RightArrow.png',
+    'DisplayBoxBodies.png',
+    'DisplayBoxColors.png',
+    'DisplayBoxHats.png',
+    'sawOn.png',
+    'Astro_Blue_CowboyHat_Fall.png',
+    'Astro_Blue_CowboyHat_Jump.png',
+    'Astro_Blue_CowboyHat_Run.png',
+    'Astro_Blue_CowboyHat_Hit.png',
+    'Astro_Blue_NoHat_Fall.png',
+    'Astro_Blue_NoHat_Jump.png',
+    'Astro_Blue_NoHat_Run.png',
+    'Astro_Blue_NoHat_Hit.png',
+    'Astro_Red_CowboyHat_Fall.png',
+    'Astro_Red_CowboyHat_Jump.png',
+    'Astro_Red_CowboyHat_Run.png',
+    'Astro_Red_CowboyHat_Hit.png',
+    'Astro_Red_NoHat_Fall.png',
+    'Astro_Red_NoHat_Jump.png',
+    'Astro_Red_NoHat_Run.png',
+    'Astro_Red_NoHat_Hit.png',
+    'Astro_Green_CowboyHat_Fall.png',
+    'Astro_Green_CowboyHat_Jump.png',
+    'Astro_Green_CowboyHat_Run.png',
+    'Astro_Green_CowboyHat_Hit.png',
+    'Astro_Green_NoHat_Fall.png',
+    'Astro_Green_NoHat_Jump.png',
+    'Astro_Green_NoHat_Run.png',
+    'Astro_Green_NoHat_Hit.png',
+    'Astro_Yellow_CowboyHat_Fall.png',
+    'Astro_Yellow_CowboyHat_Jump.png',
+    'Astro_Yellow_CowboyHat_Run.png',
+    'Astro_Yellow_CowboyHat_Hit.png',
+    'Astro_Yellow_NoHat_Fall.png',
+    'Astro_Yellow_NoHat_Jump.png',
+    'Astro_Yellow_NoHat_Run.png',
+    'Astro_Yellow_NoHat_Hit.png',
+    'Astro_Orange_CowboyHat_Fall.png',
+    'Astro_Orange_CowboyHat_Jump.png',
+    'Astro_Orange_CowboyHat_Run.png',
+    'Astro_Orange_CowboyHat_Hit.png',
+    'Astro_Orange_NoHat_Fall.png',
+    'Astro_Orange_NoHat_Jump.png',
+    'Astro_Orange_NoHat_Run.png',
+    'Astro_Orange_NoHat_Hit.png',
+    'John_Blue_CowboyHat_Fall.png',
+    'John_Blue_CowboyHat_Jump.png',
+    'John_Blue_CowboyHat_Run.png',
+    'John_Blue_CowboyHat_Hit.png',
+    'John_Blue_NoHat_Fall.png',
+    'John_Blue_NoHat_Jump.png',
+    'John_Blue_NoHat_Run.png',
+    'John_Blue_NoHat_Hit.png',
+    'John_Red_CowboyHat_Fall.png',
+    'John_Red_CowboyHat_Jump.png',
+    'John_Red_CowboyHat_Run.png',
+    'John_Red_CowboyHat_Hit.png',
+    'John_Red_NoHat_Fall.png',
+    'John_Red_NoHat_Jump.png',
+    'John_Red_NoHat_Run.png',
+    'John_Red_NoHat_Hit.png',
+    'John_Green_CowboyHat_Fall.png',
+    'John_Green_CowboyHat_Jump.png',
+    'John_Green_CowboyHat_Run.png',
+    'John_Green_CowboyHat_Hit.png',
+    'John_Green_NoHat_Fall.png',
+    'John_Green_NoHat_Jump.png',
+    'John_Green_NoHat_Run.png',
+    'John_Green_NoHat_Hit.png',
+    'John_Yellow_CowboyHat_Fall.png',
+    'John_Yellow_CowboyHat_Jump.png',
+    'John_Yellow_CowboyHat_Run.png',
+    'John_Yellow_CowboyHat_Hit.png',
+    'John_Yellow_NoHat_Fall.png',
+    'John_Yellow_NoHat_Jump.png',
+    'John_Yellow_NoHat_Run.png',
+    'John_Yellow_NoHat_Hit.png',
+    'John_Orange_CowboyHat_Fall.png',
+    'John_Orange_CowboyHat_Jump.png',
+    'John_Orange_CowboyHat_Run.png',
+    'John_Orange_CowboyHat_Hit.png',
+    'John_Orange_NoHat_Fall.png',
+    'John_Orange_NoHat_Jump.png',
+    'John_Orange_NoHat_Run.png',
+    'John_Orange_NoHat_Hit.png',
+    'Jane_Blue_CowboyHat_Fall.png',
+    'Jane_Blue_CowboyHat_Jump.png',
+    'Jane_Blue_CowboyHat_Run.png',
+    'Jane_Blue_CowboyHat_Hit.png',
+    'Jane_Blue_NoHat_Fall.png',
+    'Jane_Blue_NoHat_Jump.png',
+    'Jane_Blue_NoHat_Run.png',
+    'Jane_Blue_NoHat_Hit.png',
+    'Jane_Red_CowboyHat_Fall.png',
+    'Jane_Red_CowboyHat_Jump.png',
+    'Jane_Red_CowboyHat_Run.png',
+    'Jane_Red_CowboyHat_Hit.png',
+    'Jane_Red_NoHat_Fall.png',
+    'Jane_Red_NoHat_Jump.png',
+    'Jane_Red_NoHat_Run.png',
+    'Jane_Red_NoHat_Hit.png',
+    'Jane_Green_CowboyHat_Fall.png',
+    'Jane_Green_CowboyHat_Jump.png',
+    'Jane_Green_CowboyHat_Run.png',
+    'Jane_Green_CowboyHat_Hit.png',
+    'Jane_Green_NoHat_Fall.png',
+    'Jane_Green_NoHat_Jump.png',
+    'Jane_Green_NoHat_Run.png',
+    'Jane_Green_NoHat_Hit.png',
+    'Jane_Yellow_CowboyHat_Fall.png',
+    'Jane_Yellow_CowboyHat_Jump.png',
+    'Jane_Yellow_CowboyHat_Run.png',
+    'Jane_Yellow_CowboyHat_Hit.png',
+    'Jane_Yellow_NoHat_Fall.png',
+    'Jane_Yellow_NoHat_Jump.png',
+    'Jane_Yellow_NoHat_Run.png',
+    'Jane_Yellow_NoHat_Hit.png',
+    'Jane_Orange_CowboyHat_Fall.png',
+    'Jane_Orange_CowboyHat_Jump.png',
+    'Jane_Orange_CowboyHat_Run.png',
+    'Jane_Orange_CowboyHat_Hit.png',
+    'Jane_Orange_NoHat_Fall.png',
+    'Jane_Orange_NoHat_Jump.png',
+    'Jane_Orange_NoHat_Run.png',
+    'Jane_Orange_NoHat_Hit.png',
   ];
 
-  late HeroPlayer _hero;
+  late HeroPlayer hero;
   late PlayerData playerData;
   late EnemyManager _enemyManager;
+
+  List bodyArray = ["Astro", "John", "Jane"];
+  List colorArray = ["Blue", "Red", "Yellow", "Orange", "Green"];
+  List hatArray = ["NoHat", "CowboyHat"];
+  int bodyIndex = 0, colorIndex = 0, hatIndex = 0;
+  late NavigationArrow leftBodyArrow, rightBodyArrow;
+  late NavigationArrow leftColorArrow, rightColorArrow;
+  late NavigationArrow leftHatArrow, rightHatArrow;
+  late SpriteComponent displayBoxBody, displayBoxColor, displayBoxHat;
+  bool fingerOnScreen = false;
 
   Vector2 get virtualSize => camera.viewport.virtualSize;
 
@@ -51,16 +180,16 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
   }
 
   void startGamePlay() {
-    _hero = HeroPlayer(images.fromCache('main.png'), playerData);
+    hero = HeroPlayer(playerData);
     _enemyManager = EnemyManager();
-    _enemyManager.limit = limit; 
-    world.add(_hero);
+    _enemyManager.limit = limit;
+    world.add(hero);
     world.add(_enemyManager);
     _loadBackground();
   }
 
   void _disconnectActors() {
-    _hero.removeFromParent();
+    hero.removeFromParent();
     _enemyManager.removeAllEnemies();
     _enemyManager.removeFromParent();
   }
@@ -118,16 +247,15 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
     super.lifecycleStateChange(state);
   }
 
-  void _loadBackground () async {
+  void _loadBackground() async {
     String backgroundName = 'SummerBackground.png';
 
-    if(this.limit == 300) {
+    if (limit == 300) {
       backgroundName = 'AutumnBackground.png';
-    }
-    else if(this.limit == 500) {
+    } else if (limit == 500) {
       backgroundName = 'WinterBackground.png';
     }
-    
+
     final parallaxBackground = await loadParallaxComponent(
       [
         ParallaxImageData(backgroundName),
@@ -137,5 +265,58 @@ class GameRunner extends FlameGame with TapDetector, HasCollisionDetection {
     );
 
     camera.backdrop.add(parallaxBackground);
+  }
+
+  void loadCustomizeMenu() {
+    // To initialize and not crash if customizing first
+    _enemyManager = EnemyManager();
+
+    hero = HeroPlayer(playerData);
+    world.add(hero);
+    _loadBackground();
+
+    leftBodyArrow = NavigationArrow(playerData, "Left", "Body");
+    rightBodyArrow = NavigationArrow(playerData, "Right", "Body");
+    leftColorArrow = NavigationArrow(playerData, "Left", "Color");
+    rightColorArrow = NavigationArrow(playerData, "Right", "Color");
+    leftHatArrow = NavigationArrow(playerData, "Left", "Hat");
+    rightHatArrow = NavigationArrow(playerData, "Right", "Hat");
+
+    world.add(leftBodyArrow);
+    world.add(rightBodyArrow);
+    world.add(leftColorArrow);
+    world.add(rightColorArrow);
+    world.add(leftHatArrow);
+    world.add(rightHatArrow);
+
+    displayBoxBody = SpriteComponent(
+        sprite: Sprite(images.fromCache("DisplayBoxBodies.png")));
+    displayBoxBody.position.x = size.x - 196;
+    displayBoxBody.position.y = size.y - 124;
+    displayBoxColor = SpriteComponent(
+        sprite: Sprite(images.fromCache("DisplayBoxColors.png")));
+    displayBoxColor.position.x = size.x - 196;
+    displayBoxColor.position.y = size.y - 104;
+    displayBoxHat = SpriteComponent(
+        sprite: Sprite(images.fromCache("DisplayBoxBodies.png")));
+    displayBoxHat.position.x = size.x - 196;
+    displayBoxHat.position.y = size.y - 84;
+
+    world.add(displayBoxBody);
+    world.add(displayBoxColor);
+    world.add(displayBoxHat);
+  }
+
+  void closeMenu() {
+    hero.removeFromParent();
+    leftBodyArrow.removeFromParent();
+    rightBodyArrow.removeFromParent();
+    leftColorArrow.removeFromParent();
+    rightColorArrow.removeFromParent();
+    leftHatArrow.removeFromParent();
+    rightHatArrow.removeFromParent();
+    displayBoxBody.removeFromParent();
+    displayBoxColor.removeFromParent();
+    displayBoxHat.removeFromParent();
   }
 }

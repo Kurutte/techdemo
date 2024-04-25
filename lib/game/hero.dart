@@ -7,7 +7,7 @@ import '/game/gamerunner.dart';
 import '/models/player_data.dart';
 import 'dart:math';
 
-enum PlayerState { idle, running, jumping, falling }
+enum PlayerState { running, jumping, falling, hit }
 
 class HeroPlayer extends SpriteAnimationGroupComponent
     with CollisionCallbacks, HasGameReference<GameRunner> {
@@ -29,15 +29,16 @@ class HeroPlayer extends SpriteAnimationGroupComponent
 
   final double stepTime = 0.05;
 
-  late final SpriteAnimation runAnimation;
-  late final SpriteAnimation jumpAnimation;
-  late final SpriteAnimation fallAnimation;
+  late SpriteAnimation runAnimation;
+  late SpriteAnimation jumpAnimation;
+  late SpriteAnimation fallAnimation;
+  late SpriteAnimation hitAnimation;
 
-  HeroPlayer(Image image, this.playerData);
+  HeroPlayer(this.playerData);
 
   @override
   FutureOr<void> onLoad() {
-    _loadAllAnimations();
+    loadAllAnimations();
 
     return super.onLoad();
   }
@@ -103,6 +104,7 @@ class HeroPlayer extends SpriteAnimationGroupComponent
     playerData.isHit = true;
     _hitTimer.start();
     playerData.lives -= 1;
+    current = PlayerState.hit;
   }
 
   void _reset() {
@@ -120,26 +122,33 @@ class HeroPlayer extends SpriteAnimationGroupComponent
     }
   }
 
-  void _loadAllAnimations() {
+  void loadAllAnimations() {
     // Calls private(_) method to set animations
-    runAnimation = _spriteAnimation('Run', 12);
-    jumpAnimation = _spriteAnimation('Jump', 1);
-    fallAnimation = _spriteAnimation('Fall', 1);
+    runAnimation = _spriteAnimation(
+        playerData.body, playerData.color, playerData.hat, 'Run', 12);
+    jumpAnimation = _spriteAnimation(
+        playerData.body, playerData.color, playerData.hat, 'Jump', 1);
+    fallAnimation = _spriteAnimation(
+        playerData.body, playerData.color, playerData.hat, 'Fall', 1);
+    hitAnimation = _spriteAnimation(
+        playerData.body, playerData.color, playerData.hat, 'Hit', 7);
 
     // List of all animations, assigned to their states
     animations = {
       PlayerState.running: runAnimation,
       PlayerState.jumping: jumpAnimation,
-      PlayerState.falling: fallAnimation
+      PlayerState.falling: fallAnimation,
+      PlayerState.hit: hitAnimation,
     };
 
     // Set current animation
     current = PlayerState.running;
   }
 
-  SpriteAnimation _spriteAnimation(String state, int frames) {
+  SpriteAnimation _spriteAnimation(
+      String body, String color, String hat, String state, int frames) {
     return SpriteAnimation.fromFrameData(
-        game.images.fromCache('Char_$state.png'),
+        game.images.fromCache('${body}_${color}_${hat}_$state.png'),
         SpriteAnimationData.sequenced(
           amount: frames, // Image has a set amount of pictures, no var needed
           stepTime: stepTime, // Could change, should use var
@@ -151,17 +160,28 @@ class HeroPlayer extends SpriteAnimationGroupComponent
     // Default state = running
     PlayerState playerState = PlayerState.running;
 
-    // Checks if falling, sets to falling
-    if (speedY > 0) {
-      playerState = PlayerState.falling;
-    }
-
-    // Check if jumping, sets to jumping
-    if (speedY < 0) {
-      playerState = PlayerState.jumping;
+    if (playerData.isHit && !_hitTimer.finished) {
+      playerState = PlayerState.hit;
+    } else {
+      // Resets if coming back from being hit
+      if (playerData.isHit) {
+        _resetAfterHit();
+      }
+      // Checks if falling, sets to falling
+      if (speedY > 0) {
+        playerState = PlayerState.falling;
+      }
+      // Check if jumping, sets to jumping
+      if (speedY < 0) {
+        playerState = PlayerState.jumping;
+      }
     }
 
     // Sets current animation to state identified
     current = playerState;
+  }
+
+  void _resetAfterHit() {
+    playerData.isHit = false;
   }
 }

@@ -13,7 +13,11 @@ class PlayerData extends ChangeNotifier with HiveObjectMixin {
 
   double _power = 0.0;
 
-  int _currentScore = 0 ; 
+  int _currentScore = 0;
+
+  String body = 'Astro';
+  String color = 'Blue';
+  String hat = 'NoHat';
 
   int get lives => _lives;
   set lives(int value) {
