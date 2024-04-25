@@ -59,7 +59,16 @@ class NavigationArrow extends SpriteComponent
   }
 
   @override
+  void onTapUp(TapCancelEvent event) {
+      log("Got to onTapUp");
+      game.fingerOnScreen = false;
+
+      super.onTapUp(event);
+  }
+
+  @override
   void onTapCancel(TapCancelEvent event) {
+    log("Got to onTapCancel");
     game.fingerOnScreen = false;
 
     super.onTapCancel(event);
